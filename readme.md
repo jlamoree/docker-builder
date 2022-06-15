@@ -63,7 +63,7 @@ Add the local builder for Apple M1 hardware:
 ```shell
 docker buildx create \
   --name builders \
-  --node apple_studio \
+  --node apple_mac_studio \
   --platform linux/arm64,linux/arm/v7,linux/arm/v6 \
   --driver-opt env.BUILDKIT_STEP_LOG_MAX_SIZE=10000000 \
   --driver-opt env.BUILDKIT_STEP_LOG_MAX_SPEED=10000000
@@ -86,7 +86,9 @@ docker buildx inspect --bootstrap
 
 Finally, build something for both architectures:
 ```shell
-cd ~/projects/java-container-thing
+cd ~/projects/project
 docker login
-docker buildx build --platform=linux/amd64,linux/arm64 --push -t user/java-container-thing:latest .
+docker buildx build --platform=linux/amd64,linux/arm64 --push \
+  --tag username/project:1.33.7 \
+  --tag username/project:latest .
 ```
