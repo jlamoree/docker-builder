@@ -1,0 +1,11 @@
+---
+all:
+  hosts:
+    docker_builder_01:
+      ansible_host: docker-builder-01.internal.newbury-park.lamoree.net
+  children:
+    docker_builders:
+      hosts:
+        docker_builder_01:
+      vars:
+        ansible_become: true

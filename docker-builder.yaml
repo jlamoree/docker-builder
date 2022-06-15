@@ -1,0 +1,25 @@
+---
+- hosts: docker_builders
+  tasks:
+    - name: Import Docker GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        id: 9dc858229fc7dd38854ae2d88d81803c0ebfcd88
+        state: present
+    - name: Add Docker Repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: docker-ce
+        state: present
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: true
+    - name: Add the ubuntu user to the docker group
+      ansible.builtin.user:
+        user: ubuntu
+        append: yes
+        groups: docker
